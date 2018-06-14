@@ -1,10 +1,11 @@
 #include "Wire.h"
-
+#include <Stdint.h>
 //Bank A is pins 21-28 on right side of chip
 //Bank B is pins 1-8 on left side of chip
-#define GPA 0x12
-#define GPB 0x13
-
+enum Bank {
+  GPIOA = 0x12,
+  GPIOB = 0x13
+};
 //Provide enumeration for pin generation
 enum Pin
 {
@@ -19,64 +20,79 @@ enum Pin
 };
 
 //registers define I/O direction
-#define IODIRA 0x01
-#define IODIRB 0x00
+enum IODIR {
+  BANK_A =  0x01,
+  BANK_B =  0x00
+};
 
 //directions
-#define I 0xFF
-#define O 0x00
+enum IO {
+  IN = 1,
+  OUT = 0
+};
 
 //Address definitions
-#define DEFADDR 0x20
-#define ADDRA 0x40
-#define ADDRB 0x41
-#define ADDRC 0x42
-#define ADDRD 0x43
-#define ADDRE 0x44
-#define ADDRF 0x45
-#define ADDRG 0x46
-#define ADDRH 0x47
+enum ADDR {
+  DEFADDR = 0x20,
+  ADDRA = 0x40,
+  ADDRB = 0x41,
+  ADDRC = 0x42,
+  ADDRD = 0x43,
+  ADDRE = 0x44,
+  ADDRF = 0x45,
+  ADDRG = 0x46,
+  ADDRH = 0x47
+}
 
 //modulate individual pin
 uint8_t setField(uint8_t prev, Pin pin, bool state)
 {
   if(state) {
-    return prev | ( 0x01 << static_cast<uint8_t>(pin) );
+    return (prev | (0x01 << static_cast<uint8_t>(pin)));
   
   } else {
-    return prev & ~( 0x01 << static_cast<uint8_t>(pin) );
+    return (prev & ~(0x01 << static_cast<uint8_t>(pin)));
   }
 }
 
-void init(const addr, const bank, const direction) 
+void init(ADDR addr, Bank bank, IO direction) 
 {
   Wire.beginTransmission(addr);
-  Wire.write(bank);
+  Wire.write(bank); 
   Wire.write(direction);
   Wire.endTransmission();
 }
 
-void write(const addr, const bank, Pin pin, bool state) 
+void write(ADDR addr, Bank bank, Pin pin, bool state) 
 {
-  byte act = pull(addr, bank);
-  byte pkt = setField(act, pin, state);
+  uint8_t pkt = setField((static_cast<uint8_t>(pull(addr, bank))), pin, state);
   Wire.beginTransmission(addr);
   Wire.write(bank);
   Wire.write(pkt);
   Wire.endTransmission();
 }
 
-void read(const addr, const bank, const pin) 
+bool read(ADDR addr, Bank bank, int pin) 
 {
-
+  uint8_t TRNS = (((pull(addr, bank)) >> static_cast<uint8_t>((pin-1))) & static_cast<uint8_t>(0x01))
+  if (TRNS == static_cast<uint8_t>(0x01)) {
+    return true;
+  } else if (TRNS == static_cast<uint8_t>(0x00)){
+    return false;
+  } else {
+    Serial.println("read unsuccessful")
+  }
 }
 
-void push(const addr, const bank, byte val) 
+void push(ADDR addr, Bank bank, uint8_t val) 
 {
-  
+  Wire.beginTransmission(addr);
+  Wire.write(bank);
+  Wire.write(val);
+  Wire.endTransmission();
 }
 
-uint8_t pull(const addr, const bank) 
+uint8_t pull(ADDR addr, Bank bank) 
 {
   Wire.beginTransmission(addr);
   return Wire.read(bank);
