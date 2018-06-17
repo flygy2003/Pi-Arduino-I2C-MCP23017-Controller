@@ -6,18 +6,6 @@ enum Bank {
   GPIOA = 0x12,
   GPIOB = 0x13
 };
-//Provide enumeration for pin generation
-enum Pin
-{
-  PIN1 =  1, 
-  PIN2 =  1 << 1,
-  PIN3 =  1 << 2, 
-  PIN4 =  1 << 3,
-  PIN5 =  1 << 4,
-  PIN6 =  1 << 5,
-  PIN7 =  1 << 6,
-  PIN8 =  1 << 7 
-};
 
 //registers define I/O direction
 enum IODIR {
@@ -63,18 +51,20 @@ void init(ADDR addr, Bank bank, IO direction)
   Wire.endTransmission();
 }
 
-void write(ADDR addr, Bank bank, Pin pin, bool state) 
+void write(ADDR addr, int pin, bool state) 
 {
   uint8_t pkt = setField((static_cast<uint8_t>(pull(addr, bank))), pin, state);
   Wire.beginTransmission(addr);
-  Wire.write(bank);
+  Wire.write((pin<PIN8) ? BANK_B : BANK_A);
   Wire.write(pkt);
   Wire.endTransmission();
 }
 
-bool read(ADDR addr, Bank bank, int pin) 
+bool read(ADDR addr, int pin) 
 {
-  uint8_t TRNS = (((pull(addr, bank)) >> static_cast<uint8_t>((pin-1))) & static_cast<uint8_t>(0x01))
+  uint8_t TRNS = (((pull(addr, ((pin<PIN8) ? BANK_B : BANK_A))) 
+                    >> 
+                    static_cast<uint8_t>((pin))) & static_cast<uint8_t>(0x01))
   if (TRNS == static_cast<uint8_t>(0x01)) {
     return true;
   } else if (TRNS == static_cast<uint8_t>(0x00)){
@@ -105,9 +95,45 @@ void setup()
   Wire.begin();
   init(DEFADDR, GPA, O);
   init(DEFADDR, GPB, O);
+  /*
+  * Obtain states from firebase
+  * save in bitwise array va, vb
+  * cast uint8_t(va, vb) = v_a, v_b
+  * push(DEFADDR, BANK_A, v_a);
+  * push(DEFADDR, BANK_B, v_b);
+  */
 }
 
 void loop() 
 {
-
+  /*
+  * listen to changes and read as whole
+  * store in u
+  * cast u to uint8_t in uni_v
+  */
+  // {
+  //   1 : a,
+  //   2 : a,
+  //   3 : a,
+  //   4 : a,
+  //   5 : a,
+  //   6 : a,
+  //   7 : a,
+  //   8 : a,
+  //   9 : a,
+  //   10 : a,
+  //   11 : a,
+  //   12 : a,
+  //   13 : a,
+  //   14 : a,
+  //   15 : a,
+  //   16 : a
+  // }
+  for (int i = 0; i <= 15; i++) {
+     if (i<9) {
+       write(DEFADDR, BANK_B, i, uni_v[i]);
+     } else if (i>8) {
+       write(DEFADDR, BANK_A, (i-9), uni_v[i]);
+     }
+  }
 }
