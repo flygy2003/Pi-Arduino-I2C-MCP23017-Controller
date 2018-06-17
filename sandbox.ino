@@ -18,6 +18,7 @@ enum IO {
   IN = 1,
   OUT = 0
 };
+
 //Address definitions
 enum ADDR {
   DEFADDR = 0x20,
@@ -102,33 +103,7 @@ void setup()
   * push(DEFADDR, BANK_B, v_b);
   */
 }
-
-void loop() 
-{
-  /*
-  * listen to changes and read as whole
-  * store in u
-  * cast u to uint8_t in uni_v
-  */
-  // {
-  //   1 : a,
-  //   2 : a,
-  //   3 : a,
-  //   4 : a,
-  //   5 : a,
-  //   6 : a,
-  //   7 : a,
-  //   8 : a,
-  //   9 : a,
-  //   10 : a,
-  //   11 : a,
-  //   12 : a,
-  //   13 : a,
-  //   14 : a,
-  //   15 : a,
-  //   16 : a
-  // }
-  for (int i = 0; i <= 15; i++) {
-     write(DEFADDR, ((i>8) ? BANK_A : BANK_B), ((i>8) ? (i-9) : i));
-  }
+void loop() {
+	push(DEFADDR, BANK_B, 0xff);
+	delay(100);
 }
