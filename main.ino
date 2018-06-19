@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include <Stdint.h>
+#include <stdint.h>
 //Bank A is pins 21-28 on right side of chip
 //Bank B is pins 1-8 on left side of chip
 enum Bank {
