@@ -1,4 +1,4 @@
-#include "Wire.h"
+#include <Wire.h>
 #include <Stdint.h>
 //Bank A is pins 21-28 on right side of chip
 //Bank B is pins 1-8 on left side of chip
@@ -18,6 +18,7 @@ enum IO {
   IN = 1,
   OUT = 0
 };
+
 //Address definitions
 enum ADDR {
   DEFADDR = 0x20,
@@ -32,7 +33,7 @@ enum ADDR {
 };
 
 //modulate individual pin
-uint8_t setField(uint8_t prev, Pin pin, bool state)
+uint8_t setField(uint8_t prev, int pin, bool state)
 {
   if(state) {
     return (prev | (0x01 << static_cast<uint8_t>(pin)));
@@ -42,34 +43,34 @@ uint8_t setField(uint8_t prev, Pin pin, bool state)
   }
 }
 
-void init(ADDR addr, Bank bank, IO direction) 
+void init(ADDR addr, IODIR bank, IO io) 
 {
   Wire.beginTransmission(addr);
   Wire.write(bank); 
-  Wire.write(direction);
+  Wire.write(io);
   Wire.endTransmission();
 }
 
 void write(ADDR addr, int pin, bool state) 
 {
-  uint8_t pkt = setField((static_cast<uint8_t>(pull(addr, bank))), pin, state);
+  uint8_t pkt = setField((static_cast<uint8_t>(pull(addr, (pin>8) ? GPIOA : GPIOB))), ((pin>8) ? (pin-9) : pin), state);
   Wire.beginTransmission(addr);
-  Wire.write((pin<PIN8) ? BANK_B : BANK_A);
+  Wire.write((pin>8) ? GPIOA : GPIOB);
   Wire.write(pkt);
   Wire.endTransmission();
 }
 
 bool read(ADDR addr, int pin) 
 {
-  uint8_t TRNS = (((pull(addr, ((pin<PIN8) ? BANK_B : BANK_A)))
+  uint8_t TRNS = (((pull(addr, ((pin>8) ? GPIOA : GPIOB)))
                     >> 
-                    static_cast<uint8_t>((pin>8) ? (pin-9) : pin)) & static_cast<uint8_t>(0x01))
+                    static_cast<uint8_t>((pin>8) ? (pin-9) : pin)) & static_cast<uint8_t>(0x01));
   if (TRNS == static_cast<uint8_t>(0x01)) {
     return true;
   } else if (TRNS == static_cast<uint8_t>(0x00)){
     return false;
   } else {
-    Serial.println("read unsuccessful")
+    Serial.println("read unsuccessful");
   }
 }
 
@@ -84,7 +85,7 @@ void push(ADDR addr, Bank bank, uint8_t val)
 uint8_t pull(ADDR addr, Bank bank) 
 {
   Wire.beginTransmission(addr);
-  return Wire.read(bank);
+  return Wire.requestFrom(bank, 1);
   Wire.endTransmission();
 }
 
@@ -92,8 +93,8 @@ void setup()
 {
   // put your setup code here, to run once:
   Wire.begin();
-  init(DEFADDR, GPA, O);
-  init(DEFADDR, GPB, O);
+  init(DEFADDR, BANK_A, OUT);
+  init(DEFADDR, BANK_B, OUT);
   /*
   * Obtain states from firebase
   * save in bitwise array va, vb
@@ -102,33 +103,9 @@ void setup()
   * push(DEFADDR, BANK_B, v_b);
   */
 }
-
-void loop() 
-{
-  /*
-  * listen to changes and read as whole
-  * store in u
-  * cast u to uint8_t in uni_v
-  */
-  // {
-  //   1 : a,
-  //   2 : a,
-  //   3 : a,
-  //   4 : a,
-  //   5 : a,
-  //   6 : a,
-  //   7 : a,
-  //   8 : a,
-  //   9 : a,
-  //   10 : a,
-  //   11 : a,
-  //   12 : a,
-  //   13 : a,
-  //   14 : a,
-  //   15 : a,
-  //   16 : a
-  // }
-  for (int i = 0; i <= 15; i++) {
-     write(DEFADDR, ((i>8) ? BANK_A : BANK_B), ((i>8) ? (i-9) : i));
+void loop() {  
+  for (int i = 0; i<17; i++) {
+    write(DEFADDR, i, true);
+    delay(50);
   }
 }
