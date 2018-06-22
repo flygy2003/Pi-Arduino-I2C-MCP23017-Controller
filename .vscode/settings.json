@@ -19,5 +19,6 @@
         "ios": "cpp",
         "random": "cpp",
         "ostream": "cpp"
-    }
+    },
+    "python.linting.enabled": false
 }
