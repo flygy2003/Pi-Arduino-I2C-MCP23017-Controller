@@ -11,7 +11,7 @@ var config = {
 fb.initializeApp(config)
 var db = fb.database()
 //  Device address (A0-A2)
-let DEVICEA = 0x40 
+let DEVICEA = 0x20 
 let DEVICEB = 0x41 
 //  Pin direction register
 let IODIRA = 0x00
