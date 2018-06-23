@@ -9,7 +9,6 @@ var config = {
   messagingSenderId: "42864256502"
 }
 fb.initializeApp(config)
-io.openSync(1)
 
 var db = fb.database()
 //  Device address (A0-A2)
@@ -33,19 +32,24 @@ function setField(prev, pin, state) {
 }
 
 function init(addrA, bankA, iodir) {
+  io.openSync(1)
   io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
                    (bankA ? IODIRA : IODIRB), iodir)
+  io.closeSync()
 }
 
 function write(addrA, pin, state) {
+  io.openSync(1)
   io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
                    ((pin > 8) ? GPIOA : GPIOB), 
                    setField(io.readByteSync((addrA ? DEVICEA : DEVICEB), 
                                             ((pin > 8) ? GPIOA : GPIOB), 
                                             state)))
+  io.closeSync()
 }
 
 function read(addrA, pin) {
+  io.openSync(1)
   let trns = ((io.readByteSync((addrA ? DEVICEA : DEVICEB), ((pin > 8) ? GPIOA : GPIOB)) >> (pin - 1)) & 0x01)
   if (trns == 0x01) {
     return true
@@ -54,6 +58,7 @@ function read(addrA, pin) {
   } else {
     console.log("read unsuccessful")
   }
+  io.closeSync()
 }
 
 db.ref("VirtualDB").on("child_changed", (data) => {
