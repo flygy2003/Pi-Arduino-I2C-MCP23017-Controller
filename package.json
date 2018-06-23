@@ -1,0 +1,23 @@
+{
+  "name": "rpi-gpio",
+  "version": "1.0.0",
+  "description": "For home use only",
+  "main": "app.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flygy2003/Pi-Arduino-I2C-MCP23017-Controller.git"
+  },
+  "author": "Neekon Saadat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flygy2003/Pi-Arduino-I2C-MCP23017-Controller/issues"
+  },
+  "homepage": "https://github.com/flygy2003/Pi-Arduino-I2C-MCP23017-Controller#readme",
+  "dependencies": {
+    "firebase": "^5.1.0",
+    "i2c-bus": "^3.2.0"
+  }
+}

@@ -1,4 +1,3 @@
-import 
 import smbus
 import time
  
@@ -20,7 +19,7 @@ def setField(prev, pin, state):
     return (prev & ~(0x01 << (pin - 1)))
 #set iodir variable to spec
 def init(addr, bankA, iodir):
-  bus.write_byte_data(addr, (IODIRA if bankA else IODIRB, iodir))
+  bus.write_byte_data(addr, (IODIRA if bankA else IODIRB), iodir)
 #write to specified pin 1-8 within specified register and address
 def write(addrA, pin, state):
   bus.write_byte_data((DEVICEA if addrA else DEVICEB), (GPIOA if pin > 8 else GPIOB), setField(bus.read_byte_data((DEVICEA if addrA else DEVICEB), (GPIOA if pin > 8 else GPIOB)), ((pin - 9) if (pin > 8) else pin), state))

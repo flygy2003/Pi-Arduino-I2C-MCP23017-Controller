@@ -1,0 +1,105 @@
+{
+  "VirtualDB" : [ 
+  {
+    "name" : "Kitchen",
+    "state" : false
+  }, {
+    "name" : "Neekon's Bedroom",
+    "state" : false
+  }, {
+    "name" : "Office Bathroom",
+    "state" : false
+  }, {
+    "name" : "Living Room",
+    "state" : false
+  }, {
+    "name" : "Dining Room",
+    "state" : false
+  }, {
+    "name" : "Outdoor Awning Lights",
+    "state" : false
+  }, {
+    "name" : "Outdoor Wall Lights",
+    "state" : false
+  }, {
+    "name" : "Outdoor Fence Lights",
+    "state" : false
+  }, {
+    "name" : "Garage",
+    "state" : false
+  }, {
+    "name" : "Cabana",
+    "state" : false
+  }, {
+    "name" : "Cabana Bathroom",
+    "state" : false
+  }, {
+    "name" : "Gallery",
+    "state" : false
+  }, {
+    "name" : "Guest Bathroom",
+    "state" : false
+  }, {
+    "name" : "Library",
+    "state" : false
+  }, {
+    "name" : "Family Room",
+    "state" : false
+  }, {
+    "name" : "Master Bedroom",
+    "state" : false
+  }, {
+    "name" : "Master Closet Male",
+    "state" : false
+  }, {
+    "name" : "Master Bathroom Dad",
+    "state" : false
+  }, {
+    "name" : "Master Closet Mom",
+    "state" : false
+  }, {
+    "name" : "Master Bathroom Mom",
+    "state" : false
+  }, {
+    "name" : "Atrium",
+    "state" : false
+  }, {
+    "name" : "Ryan's Bedroom",
+    "state" : false
+  }, {
+    "name" : "Ryan's Bathroom",
+    "state" : false
+  }, {
+    "name" : "Homework Room",
+    "state" : false
+  }, {
+    "name" : "Neekon's Lamps",
+    "state" : false
+  }, {
+    "name" : "Kitchen Floor",
+    "state" : false
+  }, {
+    "name" : "Kitchen Cabinets",
+    "state" : false
+  }, {
+    "name" : "Bar",
+    "state" : false
+  }, {
+    "name" : "Front Gate Lights",
+    "state" : false
+  }, {
+    "name" : "Office",
+    "state" : false
+  }, {
+    "name" : "Front Entrance",
+    "state" : false
+  } ],
+  "fav" : {
+    "dad" : [ 27, 13, 14, 15, 16, 17 ],
+    "laleh" : [ 0, 3, 9, 10, 12, 26 ],
+    "main" : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 ],
+    "mom" : [ 27, 15, 18, 19, 14, 13 ],
+    "neekon" : [ 0, 1, 2, 3, 6, 8, 24, 29, 25, 26 ],
+    "ryan" : [ 0, 25, 26, 21, 22, 23, 3, 8 ]
+  }
+}
