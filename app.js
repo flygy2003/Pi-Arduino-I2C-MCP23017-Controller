@@ -1,4 +1,4 @@
-var i2c = require('i2c-bus'), io
+var i2c = require('i2c-bus'), io = i2c.openSync(1)
 var fb = require('firebase')
 var config = {
   apiKey: "AIzaSyDJ31YrXt8JAPUZHYGNRS8WNjoHaz8ssuE",
@@ -9,7 +9,6 @@ var config = {
   messagingSenderId: "42864256502"
 }
 fb.initializeApp(config)
-io.openSync(1)
 var db = fb.database()
 //  Device address (A0-A2)
 let DEVICEA = 0x40 
