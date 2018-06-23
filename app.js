@@ -1,4 +1,4 @@
-var io = require('i2c-bus')
+var i2c = require('i2c-bus'), io
 var fb = require('firebase')
 var config = {
   apiKey: "AIzaSyDJ31YrXt8JAPUZHYGNRS8WNjoHaz8ssuE",
