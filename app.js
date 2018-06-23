@@ -31,12 +31,12 @@ function setField(prev, pin, state) {
 }
 
 function init(addrA, bankA, iodir) {
-  io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
+  io.i2cWriteSync((addrA ? DEVICEA : DEVICEB), 
                    (bankA ? IODIRA : IODIRB), iodir)
 }
 
 function write(addrA, pin, state) {
-  io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
+  io.i2cWriteSync((addrA ? DEVICEA : DEVICEB), 
                    ((pin > 8) ? GPIOA : GPIOB), 
                    setField(io.readByteSync((addrA ? DEVICEA : DEVICEB), 
                                             ((pin > 8) ? GPIOA : GPIOB), 
