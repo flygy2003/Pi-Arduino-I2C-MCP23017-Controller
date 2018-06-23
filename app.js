@@ -60,7 +60,8 @@ function read(addrA, pin) {
   }
   io.closeSync()
 }
-
+init(true, true, 0)
+init(true, false, 0)
 db.ref("VirtualDB").on("child_changed", (data) => {
   if(data.key+1 > 24) {
     write(((data.key+1 > 16) ? false : true), data.key+1, data.val().state)
