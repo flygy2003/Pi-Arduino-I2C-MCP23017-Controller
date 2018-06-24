@@ -30,11 +30,6 @@ function setField(prev, pin, state) {
   }
 }
 
-function init(addrA, bankA, iodir) {
-  io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
-                   (bankA ? IODIRA : IODIRB), iodir)
-}
-
 function write(addrA, pin, state) {
   io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
                    ((pin > 8) ? GPIOA : GPIOB), 
@@ -53,8 +48,7 @@ function read(addrA, pin) {
     console.log("read unsuccessful")
   }
 }
-init(true, true, 0)
-init(true, false, 0)
+
 db.ref("VirtualDB").on("child_changed", (data) => {
   if(data.key+1 > 24) {
     write(((data.key+1 > 16) ? false : true), data.key+1, data.val().state)
