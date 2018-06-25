@@ -58,6 +58,4 @@ db.ref("VirtualDB").on("child_changed", (data) => {
     console.log(`index ${data.key} will be written to by station 1`)
     io.writeByteSync(0x20, 0x13, 0xcf)
   }
-  console.log(data.val())
-  console.log(data.key)
 })
