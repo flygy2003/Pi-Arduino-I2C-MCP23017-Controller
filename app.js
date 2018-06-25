@@ -34,8 +34,8 @@ function write(addrA, pin, state) {
   io.writeByteSync((addrA ? DEVICEA : DEVICEB), 
                    ((pin > 8) ? GPIOA : GPIOB), 
                    setField(io.readByteSync((addrA ? DEVICEA : DEVICEB), 
-                                            ((pin > 8) ? GPIOA : GPIOB), 
-                                            state)))
+                                            ((pin > 8) ? GPIOA : GPIOB)), 
+                                            state))
 }
 
 function read(addrA, pin) {
