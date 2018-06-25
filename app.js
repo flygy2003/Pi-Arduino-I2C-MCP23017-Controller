@@ -50,9 +50,8 @@ function read(addrA, pin) {
 }
 
 db.ref("VirtualDB").on("child_changed", (data) => {
-  if(data.key+1 > 24) {
-    // write(((data.key+1 > 16) ? false : true), data.key+1, data.val().state)
-    io.writeByteSync(0x20, 0x13, 0xfc)
+  if(data.key+1 < 24) {
+    write(((data.key+1 > 16) ? false : true), data.key+1, data.val().state)
   } else {
     console.log("index ${data.key} will be written to by station 1")
     io.writeByteSync(0x20, 0x13, 0xcf)
