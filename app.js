@@ -55,8 +55,8 @@ function read(addrA, pin) {
   }
 }
 
-// init(true, true, 0x00)
-// init(true, false, 0x00)
+init(true, true, 0x00)
+init(true, false, 0x00)
 db.ref("VirtualDB").on("child_changed", (data) => {
   if(data.key+1 < 24) {
     console.log(`key: ${data.key}`)
