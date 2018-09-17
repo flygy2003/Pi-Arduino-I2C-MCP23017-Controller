@@ -24,3 +24,4 @@ function init(addrA, bankA, iodir) {
                   (bankA ? IODIRA : IODIRB), 
                   iodir)
 }
+io.readByteSync(DEVICEA, GPIOB)

@@ -54,6 +54,7 @@ function read(addrA, pin) {
     console.log("read unsuccessful")
   }
 }
+
 // init(true, true, 0x00)
 // init(true, false, 0x00)
 db.ref("VirtualDB").on("child_changed", (data) => {
