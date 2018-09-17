@@ -41,7 +41,7 @@ function init(addrA, bankA, iodir) {
                   (bankA ? IODIRA : IODIRB), 
                   iodir)
 }
-io.writeByteSync(DEVICEA, IODIRA, 0x00)
+io.writeByteSync(DEVICEA, IODIRB, 0x00)
 io.writeByteSync(DEVICEA, GPIOB, 0xff)
 let data = io.readByteSync(DEVICEA, GPIOB)
 console.log(data)
