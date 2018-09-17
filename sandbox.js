@@ -41,5 +41,5 @@ function init(addrA, bankA, iodir) {
                   (bankA ? IODIRA : IODIRB), 
                   iodir)
 }
-io.writeByteSync(DEVICEA, GPIOA, 0xff)
+io.writeByteSync(DEVICEB, GPIOA, 0xff)
 io.readByteSync(DEVICEA, GPIOB)
