@@ -42,4 +42,5 @@ function init(addrA, bankA, iodir) {
                   iodir)
 }
 io.writeByteSync(DEVICEB, IODIRA, 0x00)
-io.readByteSync(DEVICEA, GPIOB)
+let data = io.readByteSync(DEVICEA, GPIOB)
+console.log(data)
