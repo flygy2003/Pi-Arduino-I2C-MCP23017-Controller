@@ -18,10 +18,28 @@ function setField(prev, pin, state) {
     console.log("invalid state arguement")
   }
 }
-
+function write(addrA, pin, state) {
+  io.writeByteSync((addrA ? DEVICEA : DEVICEB),
+    ((pin > 8) ? GPIOA : GPIOB),
+    setField(io.readByteSync((addrA ? DEVICEA : DEVICEB),
+      ((pin > 8) ? GPIOA : GPIOB)),
+      ((pin > 8) ? (pin - 8) : pin),
+      state))
+}
+function read(addrA, pin) {
+  let trns = ((io.readByteSync((addrA ? DEVICEA : DEVICEB), ((pin > 8) ? GPIOA : GPIOB)) >> (pin - 1)) & 0x01)
+  if (trns == 0x01) {
+    return true
+  } else if (trns == 0x00) {
+    return false
+  } else {
+    console.log("read unsuccessful")
+  }
+}
 function init(addrA, bankA, iodir) {
   io.writeByteSync((addrA ? DEVICEA : DEVICEB),
                   (bankA ? IODIRA : IODIRB), 
                   iodir)
 }
+io.writeByteSync(DEVICEA, GPIOA, 0xff)
 io.readByteSync(DEVICEA, GPIOB)
