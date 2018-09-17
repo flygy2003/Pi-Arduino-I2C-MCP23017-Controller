@@ -62,6 +62,7 @@ db.ref("VirtualDB").on("child_changed", (data) => {
     console.log(`key: ${data.key}`)
     console.log(`state: ${data.val().state}`)
     // write(((data.key+1 > 16) ? false : true), data.key+1, data.val().state)
+    write(true, data.key, data.val().state)
     console.log(io.readByteSync(DEVICEA, GPIOB))
   } else {
     console.log(`index ${data.key} will be written to by station 1`)
